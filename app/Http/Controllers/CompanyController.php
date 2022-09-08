@@ -3,10 +3,8 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use App\Models\Employee;
 use App\Models\Company;
-// use File;
-class EmployeeController extends Controller
+class CompanyController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -16,8 +14,8 @@ class EmployeeController extends Controller
     public function index()
     {
         //
-        $employees = Employee::latest()->paginate(10);
-        return view('employees.index',compact('employees'))
+        $companies = Company::latest()->paginate(10);
+        return view('companies.index',compact('companies'))
             ->with('i', (request()->input('page', 1) - 1) * 5);
     }
 
@@ -29,7 +27,7 @@ class EmployeeController extends Controller
     public function create()
     {
         //
-        return view('employees.create');
+        return view('companies.create');
     }
 
     /**
@@ -41,16 +39,16 @@ class EmployeeController extends Controller
     public function store(Request $request)
     {
         //
+        // dd($request);
         $request->validate([
-            'first_name' => 'required|max:50',
-            'last_name' => 'required|max:50',
-            'profile_picture'=>'required'
+            'name' => 'required|max:50',
+            'email' => 'required|max:255',
+            'logo'=>'required'
         ]);
-        $fileName=time().'.'.$request->profile_picture->extension();
-        $request->profile_picture->move(public_path('uploads'), $fileName);
-        $emp=Employee::insert(['first_name'=>$request->first_name,'last_name'=>$request->last_name,'company'=>$request->company,'email'=>$request->email,'phone'=>$request->phone,'profile_picture'=>$fileName]);
-
-        return redirect('employees')
+        $fileName=time().'.'.$request->logo->extension();
+        $request->logo->move(public_path('logos'), $fileName);
+        $com=Company::insert(['name'=>$request->name,'email'=>$request->email,'website'=>$request->website,'logo'=>$fileName]);
+        return redirect('companies')
                         ->with('success','Employee created successfully.');
     }
 
@@ -63,8 +61,8 @@ class EmployeeController extends Controller
     public function show($id)
     {
         //
-        $employees['employee'] = Employee::where(['id'=>$id])->first();
-        return view('employees.show',$employees);
+        $companies['company'] = Company::where(['id'=>$id])->first();
+        return view('companies.show',$companies);
     }
 
     /**
@@ -76,8 +74,8 @@ class EmployeeController extends Controller
     public function edit($id)
     { 
         //
-        $employees['employee'] = Employee::where(['id'=>$id])->first();
-        return view('employees.edit',$employees);
+        $companies['company'] = Company::where(['id'=>$id])->first();
+        return view('companies.edit',$companies);
     }
 
     /**
@@ -91,12 +89,11 @@ class EmployeeController extends Controller
     {
         //
         $request->validate([
-            'first_name' => 'required',
-            'last_name' => 'required',
+            'name' => 'required',
+            'email' => 'required',
         ]);
-        $employees=Employee::where(['id'=>$request->id])->update(['first_name'=>$request->first_name,'last_name'=>$request->last_name,'company'=>$request->company,'email'=>$request->email,'phone'=>$request->phone]);
-
-        return redirect('employees')
+        Company::where(['id'=>$request->id])->update(['name'=>$request->name,'email'=>$request->email,'website'=>$request->website]); 
+        return redirect('companies')
                         ->with('success','Employee updated successfully');
     }
 
@@ -108,10 +105,9 @@ class EmployeeController extends Controller
      */
     public function destroy($id)
     {
-        Employee::where(['id'=>$id])->delete();
-    
-        return redirect('employees')
-                        ->with('success','Employee deleted successfully');
+        Company::where(['id'=>$id])->delete();
+        return redirect('companies')
+                        ->with('success','Company deleted successfully');
     }
     
 }
