@@ -25,7 +25,7 @@ class AdminController extends Controller
             'email' => 'required',
             'password' => 'required',
         ]);
-   
+        
         $credentials = $request->only('email', 'password');
         if (Auth::attempt($credentials)) {
             return redirect()->intended('employees')

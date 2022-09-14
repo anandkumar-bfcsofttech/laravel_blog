@@ -5,7 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\Employee;
 use App\Models\Company;
-// use File;
+use File;
 class EmployeeController extends Controller
 {
     /**
@@ -89,11 +89,28 @@ class EmployeeController extends Controller
      */
     public function update(Request $request,$id)
     {
-        //
+        // dd($request);
         $request->validate([
             'first_name' => 'required',
             'last_name' => 'required',
         ]);
+        if($request->hasFile('profile_picture'))
+        {
+            // dd('if');
+            $profile_picture = $request->file('profile_picture');
+            $fileName=time().'.'.$profile_picture->extension();
+            $profile_picture->move(public_path('uploads'), $fileName);
+
+            $exist_image = Employee::find($id);
+            $exist_image=$exist_image->profile_picture;
+            // dd($exist_image);
+            if (!empty($exist_image)) 
+            {
+                // dd('working');
+                unlink(public_path('uploads/').$exist_image);    
+            }
+            Employee::where(['id'=>$request->id])->update(['first_name'=>$request->first_name,'last_name'=>$request->last_name,'company'=>$request->company,'email'=>$request->email,'phone'=>$request->phone,'profile_picture'=>$fileName]);
+        }
         $employees=Employee::where(['id'=>$request->id])->update(['first_name'=>$request->first_name,'last_name'=>$request->last_name,'company'=>$request->company,'email'=>$request->email,'phone'=>$request->phone]);
 
         return redirect('employees')
