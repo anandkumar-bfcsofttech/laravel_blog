@@ -35,15 +35,17 @@
   @csrf
   <!-- Email input -->
   <div class="form-outline mb-4 {{ $errors->has('email') ? 'has-ex`rror' : '' }}">
+  <label class="form-label" for="form2Example1">Email address</label>
     <input type="email" id="email" class="form-control" name="email" />
-    <label class="form-label" for="form2Example1">Email address</label>
+    
     <span class="text-danger">{{ $errors->first('email') }}</span>
   </div>
 
   <!-- Password input -->
   <div class="form-outline mb-4 {{ $errors->has('email') ? 'has-ex`rror' : '' }}">
+  <label class="form-label" for="form2Example2">Password</label>
     <input type="password" id="form2Example2" class="form-control" name="password" />
-    <label class="form-label" for="form2Example2">Password</label>
+    
     <span class="text-danger">{{ $errors->first('password') }}</span>
   </div>
 

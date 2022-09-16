@@ -49,7 +49,7 @@
             <td>{{ $employee->company }}</td>
             <td>{{ $employee->email }}</td>
             <td>{{ $employee->phone }}</td>
-            <td><img src="http://localhost:70/blog/public/uploads/{{$employee->profile_picture}}" height="100px" width="100px"></td>
+            <td><img src="http://localhost/laravel_blog/public/uploads/{{$employee->profile_picture}}" height="100px" width="100px"></td>
             <td>
                 <form action="delete/{{$employee->id}}" method="POST">
    
