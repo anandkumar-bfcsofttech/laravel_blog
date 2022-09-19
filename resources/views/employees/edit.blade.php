@@ -22,8 +22,8 @@
             </ul>
         </div>
     @endif
-  
-    <form action="http://localhost:70/blog/public/update/{{$employee->id}}" method="POST">
+    <!-- http://localhost/laravel_blog/public/update/{{$employee->id}} -->
+    <form action="{{url('update/'.$employee->id)}}" method="POST" enctype="multipart/form-data">
         @csrf
         
    
@@ -47,6 +47,10 @@
             <div class="form-group">
                 <strong>Phone No.</strong>
                 <input type="number" name="phone" class="form-control" placeholder="Phone No." value="{{$employee->phone}}">
+            </div>
+            <div class="form-group">
+                <strong>Phone No.</strong>
+                <input type="file" name="profile_picture" class="form-control" placeholder="Phone No." value="{{$employee->phone}}">
             </div>
 
             <div class="col-xs-12 col-sm-12 col-md-12 text-center">

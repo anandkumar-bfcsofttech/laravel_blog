@@ -90,6 +90,10 @@ class EmployeeController extends Controller
     public function update(Request $request,$id)
     {
         // dd($request);
+        // $rel=Employee::find(1)->getCompany;  //for getting relation of particular id 
+        //laravel relation call inner join by defult.
+        $rel=Employee::with('getCompany')->get();  //for make relation between all  common field
+        // dd($rel);
         $request->validate([
             'first_name' => 'required',
             'last_name' => 'required',
@@ -103,10 +107,8 @@ class EmployeeController extends Controller
 
             $exist_image = Employee::find($id);
             $exist_image=$exist_image->profile_picture;
-            // dd($exist_image);
             if (!empty($exist_image)) 
             {
-                // dd('working');
                 unlink(public_path('uploads/').$exist_image);    
             }
             Employee::where(['id'=>$request->id])->update(['first_name'=>$request->first_name,'last_name'=>$request->last_name,'company'=>$request->company,'email'=>$request->email,'phone'=>$request->phone,'profile_picture'=>$fileName]);
