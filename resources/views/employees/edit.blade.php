@@ -38,7 +38,7 @@
             </div>
             <div class="form-group">
                 <strong>Company</strong>
-                <input type="text" name="company" class="form-control" placeholder="Company" value="{{$employee->company}}">
+                <input type="text" name="company" class="form-control" placeholder="Company" value="{{$companyName->name}}">
             </div>
             <div class="form-group">
                 <strong>E-mail</strong>

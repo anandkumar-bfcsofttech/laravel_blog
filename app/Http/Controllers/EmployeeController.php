@@ -16,9 +16,14 @@ class EmployeeController extends Controller
     public function index()
     {
         //
-        $employees = Employee::latest()->paginate(10);
+
+        // $employees = Employee::latest()->paginate(10);
+        $employees=Employee::with('getCompany')->latest()->paginate(10); //relation used
+        // we can add get instead of latest()->paginate(10) 
+        // dd($employees);
+
         return view('employees.index',compact('employees'))
-            ->with('i', (request()->input('page', 1) - 1) * 5);
+            ->with('i', (request()->input('page', 1) - 1) * 10);
     }
 
     /**
@@ -77,6 +82,8 @@ class EmployeeController extends Controller
     { 
         //
         $employees['employee'] = Employee::where(['id'=>$id])->first();
+        $employees['companyName']=Employee::find($id)->getCompany;
+        // dd($employees);
         return view('employees.edit',$employees);
     }
 
@@ -92,7 +99,7 @@ class EmployeeController extends Controller
         // dd($request);
         // $rel=Employee::find(1)->getCompany;  //for getting relation of particular id 
         //laravel relation call inner join by defult.
-        $rel=Employee::with('getCompany')->get();  //for make relation between all  common field
+        // $rel=Employee::with('getCompany')->get();  //for make relation between all  common field
         // dd($rel);
         $request->validate([
             'first_name' => 'required',

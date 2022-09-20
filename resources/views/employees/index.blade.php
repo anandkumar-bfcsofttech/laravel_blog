@@ -46,7 +46,7 @@
             <td>{{ ++$i }}</td>
             <td>{{ $employee->first_name }}</td>
             <td>{{ $employee->last_name }}</td>
-            <td>{{ $employee->company }}</td>
+            <td>{{ $employee->getCompany->name }}</td>
             <td>{{ $employee->email }}</td>
             <td>{{ $employee->phone }}</td>
             <td><img src="http://localhost/laravel_blog/public/uploads/{{$employee->profile_picture}}" height="100px" width="100px"></td>
@@ -55,7 +55,7 @@
    
                     <a class="btn btn-info" href="show-form/{{$employee->id}}">Show</a>
     
-                    <a class="btn btn-primary" href="edit-form/{{$employee->id}}">Edit</a>
+                    <a class="btn btn-primary" href="{{url('edit-form/'.$employee->id)}}">Edit</a>
    
                     @csrf
                     <!-- method('DELETE') -->
