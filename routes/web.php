@@ -33,3 +33,4 @@ Route::get('show-form-company/{id}','CompanyController@show');
 Route::get('edit-form-company/{id}','CompanyController@edit');
 Route::post('update-company/{id}','CompanyController@update');
 Route::post('delete-company/{id}','CompanyController@destroy');
+Route::get('countries','CountryController@index');
